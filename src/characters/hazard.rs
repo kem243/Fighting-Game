@@ -4,7 +4,7 @@ use crate::input;
 use sdl2::rect::{Point, Rect}; // for hazard hitboxes
 // maybe incorporate a
 pub enum Hazards {
-	Stalagtites, // <- we can add more as we go if we want
+	Stalactites, // <- we can add more as we go if we want
 }
 
 // Structs
@@ -12,22 +12,20 @@ pub struct Hazard {
     pub active: bool,
     pub falling: bool,
     pub hit: bool,
-    pub fall_speed: i32,
-    pub damage: i32,
-    pub x_cord: i32,
-    pub y_cord: i32,
+    pub fall_speed: f64,
+    pub damage: f64,
+    pub position: Point,
 }
 
 impl Hazard {
-	pub fn new(c: Hazards) -> Stalagtites {
+	pub fn new(c: Hazards) -> Stalactites {
 		Hazard {
             active: false,
             falling: false,
             hit: false,
-            fall_speed: 1, // idk something to start with
-            damage: 5, // same as above ^^
-            y_cord: 99, // some max height
-            x_cord: 99, // potentially a randomly generated number
+            fall_speed: 1.0, // idk something to start with
+            damage: 5.0, // same as above ^^
+            position: Point::new(0,0),
 		}
     }
 
@@ -44,50 +42,51 @@ impl Hazard {
             self.hit = b;
             return true;
         }
-        pub fn set_fallspeed(&mut self, i:i32) -> bool {
+        pub fn set_fallspeed(&mut self, i:f64) -> bool {
             self.fall_speed = i;
             return true;
         }
-        pub fn set_damage(&mut self, i:i32) -> bool {
+        pub fn set_damage(&mut self, i:f64) -> bool {
             self.damage = i;
             return true;
         }
-        pub fn set_xcord(&mut self, i:i32 ) -> bool {
+        pub fn set_xcord(&mut self, i:f64 ) -> bool {
             self.x_cord = i;
             return true;
         }
-        pub fn set_ycord(&mut self, i:i32 ) -> bool {
+        pub fn set_ycord(&mut self, i:f64 ) -> bool {
             self.y_cord = i;
             return true;
         }
 
         // getters
-        pub fn get_active(&self) -> &mut String {
-            &mut self.active
+        pub fn active(&self) -> bool {
+            self.active
         }
-        pub fn get_falling(&self) -> &mut String {
-            &mut self.falling
+        pub fn falling(&self) -> bool {
+            self.falling
         }
-        pub fn get_hit(&self) -> &mut String {
-            &mut self.hit
+        pub fn hit(&self) -> bool {
+            self.hit
         }
-        pub fn get_fallspeed(&self) -> &mut String {
-            &mut self.fall_speed
+        pub fn fallspeed(&self) -> f64 {
+            self.fall_speed
         }
-        pub fn get_damage(&self) -> &mut String {
-            &mut self.damage
+        pub fn damage(&self) -> f64 {
+            self.damage
         }
-        pub fn get_xcord(&self) -> &mut String {
-            &mut self.x_cord
+        pub fn xcord(&self) -> &Point {
+            self.position.x()
         }
-        pub fn get_ycord(&self) -> &mut String {
-            &mut self.y_cord
+        pub fn ycord(&self) -> &Point {
+            self.position.y()
         }
 
         // WIP
         pub fn fall(&mut self) -> bool {
             while !self.hit {
-                &mut self.y_cord = self.y_cord - self.fall_speed; // can be changed to something else
+                let change = self.position.y() - self.fall_speed; // can be changed to something else
+                self.position.offset(0, change);
                 // update sprite
                 if self.check_hit {
                     break;
@@ -98,9 +97,9 @@ impl Hazard {
             return true;
         }
         pub fn check_hit(&mut self) -> bool {
-            if self.y_cord <= 0 { return true; } // if it hit the ground (assumed y level 0)
-            else if self.y_cord <= 0 { return true; } // if it hit a non player
-            else if self.y_cord <= 0 { return true; } // if it hit a player
+            if self.position.y() <= 0 { return true; } // if it hit the ground (assumed y level 0)
+            else if self.position.y() <= 0 { return true; } // if it hit a non player
+            else if self.position.y() <= 0 { return true; } // if it hit a player
             else { return false; } //
         }
         // these methods will involve collision.rs, might be worth having a meeting
