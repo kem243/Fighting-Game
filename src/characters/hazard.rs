@@ -97,11 +97,12 @@ impl Hazard {
             return true;
         }
         pub fn check_hit(&mut self) -> bool {
-            if self.y_cord <= 0 { return true; } // if it hit the ground
+            if self.y_cord <= 0 { return true; } // if it hit the ground (assumed y level 0)
             else if self.y_cord <= 0 { return true; } // if it hit a non player
             else if self.y_cord <= 0 { return true; } // if it hit a player
             else { return false; } //
         }
+        // these methods will involve collision.rs, might be worth having a meeting
         pub fn hit_player_check(&mut self) -> bool {
             return false;
         }
