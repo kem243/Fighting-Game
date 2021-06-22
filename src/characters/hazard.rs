@@ -24,7 +24,7 @@ impl Hazard {
             active: false,
             falling: false,
             hit: false,
-            fall_speed: 10, // idk something to start with
+            fall_speed: 1, // idk something to start with
             damage: 5, // same as above ^^
             y_cord: 99, // some max height
             x_cord: 99, // potentially a randomly generated number
@@ -87,11 +87,12 @@ impl Hazard {
         // WIP
         pub fn fall(&mut self) -> bool {
             while !self.hit {
-                &mut self.y_cord = self.y_cord - 1; // can be changed to something else
+                &mut self.y_cord = self.y_cord - self.fall_speed; // can be changed to something else
                 // update sprite
                 if self.check_hit {
                     break;
                 }
+                self.fall_speed = self.fall_speed + 1;
             }
             // handle the collision values here
             return true;
