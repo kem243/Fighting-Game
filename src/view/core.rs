@@ -86,7 +86,7 @@ impl SDLCore{
 		// make new rect and screen pos //
         let screen_position = fighter.char_state.position + Point::new(width as i32 / 2, height as i32 / 2);
         let screen_rect = Rect::from_center(screen_position, frame_width, frame_height);
-		
+
 		// hazard rectangle & position
 		let hazard_screen_position = Point::new(15, 65);
         let hazard_screen_rect = Rect::from_center(hazard_screen_position, frame_width, frame_height);
