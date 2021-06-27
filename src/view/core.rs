@@ -10,7 +10,6 @@ use sdl2::rect::Point;
 use crate::characters;
 use crate::animation;
 
-
 pub struct SDLCore{
 	sdl_cxt: sdl2::Sdl,
 	pub wincan: sdl2::render::WindowCanvas,
@@ -56,8 +55,9 @@ impl SDLCore{
 				color: Color,
 				texture: &Texture,
 				fighter: &characters::characterAbstract::Fighter,
+				hazard: &Texture // make this use hazard.rs
 				) -> Result<(), String>{
-		
+
 		// color
 		self.wincan.set_draw_color(color);
 		self.wincan.clear();
@@ -66,6 +66,8 @@ impl SDLCore{
 		let (width, height) = self.wincan.output_size()?;
 
 		let (frame_width, frame_height) = fighter.char_state.sprite.size();
+		let hazard_frame_width = 50;
+		let hazard_frame_height = 50;
 
         let current_frame = Rect::new(
             fighter.char_state.sprite.x() + frame_width as i32 * fighter.char_state.current_frame,
@@ -73,12 +75,25 @@ impl SDLCore{
             frame_width,
             frame_height,
         );
+		let hazard_frame = Rect::new(
+			0, // <-
+			0, // <- these should be changed to fall, i.e. decreasing y val
+			hazard_frame_width,
+            hazard_frame_height,
+		);
 
         // (0, 0) cordinate = center of the scren
+		// make new rect and screen pos //
         let screen_position = fighter.char_state.position + Point::new(width as i32 / 2, height as i32 / 2);
         let screen_rect = Rect::from_center(screen_position, frame_width, frame_height);
-        self.wincan.copy(texture, current_frame, screen_rect)?;
+		
+		// hazard rectangle & position
+		let hazard_screen_position = Point::new(15, 65);
+        let hazard_screen_rect = Rect::from_center(hazard_screen_position, frame_width, frame_height);
 
+		// copy textures
+        self.wincan.copy(texture, current_frame, screen_rect)?;
+		self.wincan.copy(hazard, hazard_frame, hazard_screen_rect)?;
         self.wincan.present();
 
         Ok(())
@@ -94,8 +109,8 @@ impl SDLCore{
             // match idle {
             //     Ok(i) =>  { f.add_texture(animation::sprites::State::Idle, i); },
             //     Err(e) => { panic!("Nooo"); },
-            // }  
-            
+            // }
+
     } // close load_textures
 */
 

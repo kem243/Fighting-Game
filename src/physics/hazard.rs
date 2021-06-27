@@ -52,7 +52,7 @@ impl Hazard {
         pub fn fall(&mut self) -> bool {
             while !self.hit {
                 let change = self.position.y() - self.fall_speed; // can be changed to something else
-                self.fall_speed = self.fallspeed * 1.25; // accelerate fall speed 
+                self.fall_speed = self.fallspeed * 1.25; // accelerate fall speed
                 self.position.offset(0, change);
                 // update sprite
                 if self.check_hit {
@@ -63,10 +63,10 @@ impl Hazard {
             // handle the collision values here
             return true;
         }
-        pub fn check_hit(&mut self) -> bool {
-            if self.position.y() <= 0 { return true; } // if it hit the ground (assumed y level 0)
-            else if self.position.y() <= 0 { return true; } // if it hit a non player
-            else if self.position.y() <= 0 { return true; } // if it hit a player
-            else { return false; } //
-        }
+        // pub fn check_hit(&mut self) -> bool {
+        //     if self.position.y() <= 0 { return true; } // if it hit the ground (assumed y level 0)
+        //     else if self.position.y() <= 0 { return true; } // if it hit a non player
+        //     else if self.position.y() <= 0 { return true; } // if it hit a player
+        //     else { return false; } //
+        // }
 }
