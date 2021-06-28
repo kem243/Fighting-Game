@@ -55,7 +55,7 @@ impl SDLCore{
 				color: Color,
 				texture: &Texture,
 				fighter: &characters::characterAbstract::Fighter,
-				hazard: &Texture 
+				hazard: &Texture
 				) -> Result<(), String>{
 
 		// color
@@ -75,7 +75,7 @@ impl SDLCore{
             frame_width,
             frame_height,
         );
-		let hazard_frame = Rect::new(
+		let mut hazard_frame = Rect::new(
 			0, // <-
 			0, // <- these should be changed to fall, i.e. decreasing y val
 			hazard_frame_width,
@@ -88,17 +88,17 @@ impl SDLCore{
         let screen_rect = Rect::from_center(screen_position, frame_width, frame_height);
 
 		// hazard rectangle & position
-		let hazard_screen_position = Point::new(100, 65);
-        let hazard_screen_rect = Rect::from_center(hazard_screen_position, frame_width, frame_height);
+		let mut hazard_screen_position = Point::new(100, 65);
+        let mut hazard_screen_rect = Rect::from_center(hazard_screen_position, frame_width, frame_height);
 
 		// copy textures
         self.wincan.copy(texture, current_frame, screen_rect)?;
 		self.wincan.copy(hazard, hazard_frame, hazard_screen_rect)?;
         self.wincan.present();
 
+
         Ok(())
 	} // closing render fun
-
 /*
     // NOT FUNCTIONING YET
     fn load_textures(texture_creator: &'t TextureCreator<WindowContext>,

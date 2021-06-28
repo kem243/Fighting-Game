@@ -21,6 +21,8 @@ pub mod view; // for core
 pub mod input; // for inputHandler and movement
 pub mod animation;
 pub mod networking;
+//pub mod physics;
+
 //use crate::view::core; // need for SDLCore and TextureManager
 //use crate::view::core::Demo; // need for SDLCore's Demo
 // use crate::view::loads;
@@ -53,6 +55,7 @@ pub fn run_game() -> Result<(), String>{
     // Creating initial character state
     let fighter = characters::characterAbstract::CharacterState::new();
     let mut fighter = characters::characterAbstract::Fighter::new(fighter);
+    //let mut hazard_entity = physics::hazard::Hazard::new();
 
     let texture_creator = game_window.wincan.texture_creator();
 

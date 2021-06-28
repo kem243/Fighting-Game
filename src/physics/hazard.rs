@@ -1,4 +1,4 @@
-extern crate::street_code_fighter;
+extern crate street_code_fighter;
 
 use sdl2::rect::{Point, Rect}; // for hazard hitboxes
 // maybe incorporate a
