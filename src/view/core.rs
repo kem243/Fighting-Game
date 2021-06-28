@@ -55,7 +55,7 @@ impl SDLCore{
 				color: Color,
 				texture: &Texture,
 				fighter: &characters::characterAbstract::Fighter,
-				hazard: &Texture // make this use hazard.rs
+				hazard: &Texture 
 				) -> Result<(), String>{
 
 		// color
@@ -88,7 +88,7 @@ impl SDLCore{
         let screen_rect = Rect::from_center(screen_position, frame_width, frame_height);
 
 		// hazard rectangle & position
-		let hazard_screen_position = Point::new(15, 65);
+		let hazard_screen_position = Point::new(100, 65);
         let hazard_screen_rect = Rect::from_center(hazard_screen_position, frame_width, frame_height);
 
 		// copy textures
