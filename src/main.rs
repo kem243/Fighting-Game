@@ -124,6 +124,7 @@ pub fn run_game() -> Result<(), String>{
                         fighter.char_state.position = fighter.char_state.position.offset(-fighter.speed, 0);
                         fighter.char_state.set_state(animation::sprites::State::Idle); 
                         fighter.char_state.set_current_frame(0);
+                        fighter.char_state.reset_jump_count();
                     }
                 },
                 input::movement::Direction::Right => {   
@@ -135,6 +136,7 @@ pub fn run_game() -> Result<(), String>{
                         fighter.char_state.position = fighter.char_state.position.offset(fighter.speed, fighter.jump_height);
                         fighter.char_state.set_state(animation::sprites::State::Idle); 
                         fighter.char_state.set_current_frame(0);
+                        fighter.char_state.reset_jump_count();
                     }
                 },
                 input::movement::Direction::Up => { 
@@ -146,18 +148,20 @@ pub fn run_game() -> Result<(), String>{
                         fighter.char_state.position = fighter.char_state.position.offset(0, 0);
                         fighter.char_state.set_state(animation::sprites::State::Idle); 
                         fighter.char_state.set_current_frame(0);
+                        fighter.char_state.reset_jump_count();
                     }
                 },
                 input::movement::Direction::Down => {  // Fastfall
                     println!("In down jump");
-                    if fighter.char_state.current_frame < 3 { 
+                    if fighter.char_state.current_frame < 2 { 
                         fighter.char_state.position = fighter.char_state.position.offset(0, -fighter.jump_height);
-                    } else if fighter.char_state.current_frame < 5 { // Note: works b/c there are 6x states in jump
-                        fighter.char_state.position = fighter.char_state.position.offset(0, fighter.fastfall);
-                    } else if fighter.char_state.current_frame == 5 { 
+                    } else if fighter.char_state.current_frame < 4 { // Note: works b/c there are 6x states in jump
+                        fighter.char_state.position = fighter.char_state.position.offset(0, fighter.jump_height);
+                    } else if fighter.char_state.current_frame == 4 { 
                         fighter.char_state.position = fighter.char_state.position.offset(0, 0);
                         fighter.char_state.set_state(animation::sprites::State::Idle); 
                         fighter.char_state.set_current_frame(0);
+                        fighter.char_state.reset_jump_count();
                     }
                 },
              } // end direction jump match

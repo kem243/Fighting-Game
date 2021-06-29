@@ -25,6 +25,7 @@ pub struct CharacterState {
 	pub auto_repeat: bool,
 	pub direction: input::movement::Direction,
 	pub next_state: animation::sprites::State,	
+	pub jump_count: i32, 
 }
 
 // EDIT: consider updating integers to f64
@@ -77,12 +78,12 @@ impl <'t> Fighter <'t> {
 			pivot_grip: 25,
 			air_resistance: -0.1,
 			air_control: 5,
-			jumps: 2,
-			jump_height: 100,
+			jumps: 1,
+			jump_height: 50,
 			short_hop_height: 5,
 			air_jump_height: 7,
 			heavy_land_lag: 2,
-			fastfall: 200,
+			fastfall: 100,
 			shield_size: 3,
       	textures: HashMap::new(),
 		}
@@ -161,6 +162,7 @@ impl CharacterState {
 			auto_repeat: true,
 			next_state: animation::sprites::State::Idle,
 			direction: input::movement::Direction::Up,
+			jump_count: 0,
 		}
 	}
 	
@@ -186,6 +188,7 @@ impl CharacterState {
 	pub fn x(&self)				-> i32							{ self.position.x() }
 	pub fn y(&self)				-> i32							{ self.position.y() }
 	pub fn direction(&self)		-> &input::movement::Direction	{ &self.direction }
+	pub fn jump_count(&self)	-> i32							{ self.jump_count }
 	
 	// settters (use to update)
 	pub fn set_position(&mut self, p: Point)						{ self.position = p; }
@@ -199,6 +202,9 @@ impl CharacterState {
 	pub fn set_next_state(&mut self, s: animation::sprites::State)	{ self.next_state = s; }
 	pub fn set_direction(&mut self, d: input::movement::Direction)	{ self.direction = d; }
 	pub fn reset_current_frame(&mut self)							{ self.current_frame = 0; }
+	
+	pub fn increment_jump_count(&mut self)					{ self.jump_count = (self.jump_count + 1) }
+	pub fn reset_jump_count(&mut self)						{ self.jump_count = 0}
 
 	// pub fn isMoving(&self) -> bool {
 	// 	if self.state == animation::sprites::State::Jump || self.state == animation::sprites::State::FJump 
