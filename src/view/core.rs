@@ -9,6 +9,7 @@ use sdl2::rect::Point;
 
 use crate::characters;
 use crate::animation;
+use crate::physics;
 
 pub struct SDLCore{
 	sdl_cxt: sdl2::Sdl,
@@ -55,7 +56,8 @@ impl SDLCore{
 				color: Color,
 				texture: &Texture,
 				fighter: &characters::characterAbstract::Fighter,
-				hazard: &Texture
+				hazard: &physics::hazard::Hazard,
+				hazard_texture: &Texture
 				) -> Result<(), String>{
 
 		// color
@@ -66,8 +68,6 @@ impl SDLCore{
 		let (width, height) = self.wincan.output_size()?;
 
 		let (frame_width, frame_height) = fighter.char_state.sprite.size();
-		let hazard_frame_width = 50;
-		let hazard_frame_height = 50;
 
         let current_frame = Rect::new(
             fighter.char_state.sprite.x() + frame_width as i32 * fighter.char_state.current_frame,
@@ -75,12 +75,7 @@ impl SDLCore{
             frame_width,
             frame_height,
         );
-		let mut hazard_frame = Rect::new(
-			0, // <-
-			0, // <- these should be changed to fall, i.e. decreasing y val
-			hazard_frame_width,
-            hazard_frame_height,
-		);
+		let hazard_frame = Rect::new(0, 0, 100, 100);
 
         // (0, 0) cordinate = center of the scren
 		// make new rect and screen pos //
@@ -88,12 +83,12 @@ impl SDLCore{
         let screen_rect = Rect::from_center(screen_position, frame_width, frame_height);
 
 		// hazard rectangle & position
-		let mut hazard_screen_position = Point::new(100, 65);
-        let mut hazard_screen_rect = Rect::from_center(hazard_screen_position, frame_width, frame_height);
+		let hazard_screen_position = hazard.position;
+		let hazard_screen_rectangle = hazard.sprite;
 
 		// copy textures
         self.wincan.copy(texture, current_frame, screen_rect)?;
-		self.wincan.copy(hazard, hazard_frame, hazard_screen_rect)?;
+		self.wincan.copy(hazard_texture, hazard_frame, hazard_screen_rectangle)?;
         self.wincan.present();
 
 

@@ -21,7 +21,7 @@ pub mod view; // for core
 pub mod input; // for inputHandler and movement
 pub mod animation;
 pub mod networking;
-//pub mod physics;
+pub mod physics;
 
 //use crate::view::core; // need for SDLCore and TextureManager
 //use crate::view::core::Demo; // need for SDLCore's Demo
@@ -54,8 +54,9 @@ pub fn run_game() -> Result<(), String>{
 
     // Creating initial character state
     let fighter = characters::characterAbstract::CharacterState::new();
+
     let mut fighter = characters::characterAbstract::Fighter::new(fighter);
-    //let mut hazard_entity = physics::hazard::Hazard::new();
+    let mut hazard = physics::hazard::Hazard::new();
 
     let texture_creator = game_window.wincan.texture_creator();
 
@@ -73,7 +74,7 @@ pub fn run_game() -> Result<(), String>{
     let lkick = texture_creator.load_texture("src/assets/images/characters/python/lkick-outline.png")?;
     let hkick = texture_creator.load_texture("src/assets/images/characters/python/hkick-outline.png")?;
     let block = texture_creator.load_texture("src/assets/images/characters/python/block-outline.png")?;
-    let hazard = texture_creator.load_texture("src/assets/images/hazards/stalactite50x50.png")?;
+    let hazard_texture = texture_creator.load_texture("src/assets/images/hazards/stalactite100x100.png")?;
 
     python_textures.insert(animation::sprites::State::Idle, idle);
     python_textures.insert(animation::sprites::State::Walk, walk);
@@ -109,7 +110,7 @@ pub fn run_game() -> Result<(), String>{
         // movement direction occurs here
 
         // render canvas
-        game_window.render(Color::RGB(222,222,222), &texture, &fighter, &hazard);
+        game_window.render(Color::RGB(222,222,222), &texture, &fighter, &hazard, &hazard_texture);
 
         //advance frame
         fighter.char_state.advance_frame();
@@ -193,6 +194,7 @@ pub fn run_game() -> Result<(), String>{
             thread::sleep(FRAME_TIME - end);
         }
         */
+        hazard.sprite.offset(0, 15);
     }
 
     Ok(())
