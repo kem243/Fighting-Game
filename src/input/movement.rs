@@ -2,6 +2,7 @@ use crate::characters; // used to get Fighter
 use crate::animation; // used to get States
 
 // direction enum
+#[derive(Debug)]
 pub enum Direction {
     Left,
     Right,
@@ -26,7 +27,7 @@ pub fn jump(f: &mut characters::characterAbstract::Fighter) {
         Direction::Left => { f.char_state.set_state(animation::sprites::State::Jump); },
         Direction::Right => { f.char_state.set_state(animation::sprites::State::FJump); },
         Direction::Up => { f.char_state.set_state(animation::sprites::State::Jump); },
-        Direction::Down => (),
+        Direction::Down => { f.char_state.set_state(animation::sprites::State::Jump); },
     }
 
 } // close jump fn

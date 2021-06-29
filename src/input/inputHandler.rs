@@ -29,19 +29,24 @@ pub fn keyboard_input(event: &Event, fighter: &mut characters::characterAbstract
                             }
                         },
                         Event::KeyDown{keycode: Some(k), repeat:false, ..} => {
-                            fighter.char_state.reset_current_frame(); // reset frames to 0 every click
-                            match k {
-                                Keycode::W => { input::movement::jump(fighter); }, // jump                                                                                     
-                                Keycode::S => (), // crouch (stretch goal)
-                                Keycode::Space => (),
-                                Keycode::Return => { input::movement::block(fighter); }, 
-                                Keycode::J =>      { input::movement::lkick(fighter); }, 
-                                Keycode::I => { input::movement::hkick(fighter); }, 
-                                Keycode::K => { input::movement::lpunch(fighter); }, 
+                            if (fighter.char_state.state == animation::sprites::State::Jump || fighter.char_state.state == animation::sprites::State::FJump) 
+                            && k == &Keycode::W {
+                                println!("Do nothing");
+                            } else{
+                                fighter.char_state.reset_current_frame(); // reset frames to 0 every click
+                                match k {
+                                    Keycode::W => { input::movement::jump(fighter); }, // jump                                                                                     
+                                    Keycode::S => { fighter.char_state.direction = input::movement::Direction::Down; println!("{:?}", fighter.char_state.direction);},
+                                    Keycode::Space => (),
+                                    Keycode::Return => { input::movement::block(fighter); }, 
+                                    Keycode::J => { input::movement::lkick(fighter); }, 
+                                    Keycode::I => { input::movement::hkick(fighter); }, 
+                                    Keycode::K => { input::movement::lpunch(fighter); }, 
 
-                                // Stetch goal: expand keyboard commands, if expand moves
-                                _ => {},
-                            } // close match k
+                                    // Stetch goal: expand keyboard commands, if expand moves
+                                    _ => {},
+                                } // close match k
+                            }
                         } // close KeyDown
                         _ => {},
                 } // close match event

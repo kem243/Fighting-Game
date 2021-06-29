@@ -15,6 +15,7 @@ pub enum Characters {
 
 // Structs 
 // defines the current state of the character
+#[derive(Debug)]
 pub struct CharacterState {
 	pub position: Point,
     pub state: animation::sprites::State,
@@ -50,7 +51,7 @@ pub struct Fighter<'t> {
     pub short_hop_height: i32,
     pub air_jump_height: i32,
     pub heavy_land_lag: i32,
-    pub fastfall_multiplier: f32,
+    pub fastfall: i32,
     pub shield_size: i32,
   	pub textures: HashMap<animation::sprites::State, Texture<'t>>,
 
@@ -77,11 +78,11 @@ impl <'t> Fighter <'t> {
 			air_resistance: -0.1,
 			air_control: 5,
 			jumps: 2,
-			jump_height: 10,
+			jump_height: 100,
 			short_hop_height: 5,
 			air_jump_height: 7,
 			heavy_land_lag: 2,
-			fastfall_multiplier: 1.25,
+			fastfall: 200,
 			shield_size: 3,
       	textures: HashMap::new(),
 		}
@@ -107,7 +108,7 @@ impl <'t> Fighter <'t> {
     pub fn short_hop_height(&self) -> &i32 {&self.short_hop_height}
     pub fn air_jump_height(&self) -> &i32 {&self.air_jump_height}
     pub fn heavy_land_lag(&self) -> &i32 {&self.heavy_land_lag}
-    pub fn fastfall_multiplier(&self) -> &f32 {&self.fastfall_multiplier}
+    pub fn fastfall(&self) -> &i32 {&self.fastfall}
     pub fn shield_size(&self) -> &i32 {&self.shield_size} 
 
 	pub fn textures(&self) -> &Texture<'t> {
@@ -141,7 +142,7 @@ impl <'t> Fighter <'t> {
     pub fn set_short_hop_height(&mut self) -> &mut i32 {&mut self.short_hop_height}
     pub fn set_air_jump_height(&mut self) -> &mut i32 {&mut self.air_jump_height}
     pub fn set_heavy_land_lag(&mut self) -> &mut i32 {&mut self.heavy_land_lag}
-    pub fn set_fastfall_multiplier(&mut self) -> &mut f32 {&mut self.fastfall_multiplier}
+    pub fn set_fastfall(&mut self) -> &mut i32 {&mut self.fastfall}
     pub fn set_shield_size(&mut self) -> &mut i32 {&mut self.shield_size}
 } // close Fighter impl
 
@@ -199,9 +200,18 @@ impl CharacterState {
 	pub fn set_direction(&mut self, d: input::movement::Direction)	{ self.direction = d; }
 	pub fn reset_current_frame(&mut self)							{ self.current_frame = 0; }
 
+	// pub fn isMoving(&self) -> bool {
+	// 	if self.state == animation::sprites::State::Jump || self.state == animation::sprites::State::FJump 
+	// 	|| self.state == animation::sprites::State::LPunch || self.state == animation::sprites::State::LKick
+	// 	|| self.state == animation::sprites::State::HKick {
+	// 		true
+	// 	} else {
+	// 		false
+	// 	}
+	// }
+
 	pub fn isMoving(&self) -> bool {
-		if self.state == animation::sprites::State::Jump || self.state == animation::sprites::State::FJump 
-		|| self.state == animation::sprites::State::LPunch || self.state == animation::sprites::State::LKick
+		if self.state == animation::sprites::State::LPunch || self.state == animation::sprites::State::LKick
 		|| self.state == animation::sprites::State::HKick {
 			true
 		} else {
