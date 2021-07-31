@@ -10,6 +10,8 @@ pub struct ParticleForceRegistration {
 }
 pub struct ParticleForceGenerator {
 	pub gravity:  PhysVec::new(0f32, 9.8f32),
+    pub punch:  PhysVec::new(0f32, 9.8f32),
+    pub highKick:  PhysVec::new(0f32, 9.8f32),
 }
 
 // Holds the list of registrations.
@@ -71,11 +73,11 @@ impl <'t> ParticleForceGenerator <'t> {
 
     pub fn ParticlePunch::updateForce(Particle* particle) {
         // Apply the mass-scaled force to the particle.
-        particle.add_force(gravity * (1f32/particle.inverse_mass));
+        particle.add_force(punch * (1f32/particle.inverse_mass));
     }
 
     pub fn ParticleKick::updateForce(Particle* particle) {
         // Apply the mass-scaled force to the particle.
-        particle.add_force(gravity * (1f32/particle.inverse_mass));
+        particle.add_force(highKick * (1f32/particle.inverse_mass));
     }
 } // close ParticleForceGenerator impl
