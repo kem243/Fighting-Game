@@ -24,6 +24,8 @@ use physics::particle::*;
 use view::globals::*;
 use rand::prelude::*;
 use std::collections::VecDeque;
+use std::fs;
+use sdl2::image::InitFlag;
 
 pub mod characters; // for characterAbstract
 pub mod view; // for core
@@ -674,7 +676,7 @@ pub fn run_client() -> Result<(), String>{
 }
 
 
-/*
+
  // run credits
  pub fn run_credits() -> Result<(), String> {
     let sdl_context = sdl2::init()?;
@@ -733,20 +735,20 @@ pub fn run_client() -> Result<(), String>{
 
     Ok(())
 }
-*/
+
 
 fn main() -> Result<(), String> {
+
     let args: Vec<String> = env::args().collect();
     if args.len() > 1 && "server".eq(&args[1]){
         run_server()?;
     }else if args.len() > 1 && "client".eq(&args[1]){
         run_client()?;
-        //networking::chatClient::server_connect();
+        run_credits()?;
     }else{
         run_game()?;
+        run_credits()?;
     }
-
-    // run_credits()?;
 
     Ok(())
 }

@@ -100,7 +100,7 @@ pub fn receive_input(socket: &UdpSocket,
 
     let received_input = deserialize::<InputStruct>(&buffer).expect("Couldn't interpret data");
     
-    if received_input.time.elapsed().unwrap() > readout_time.elapsed(){ return; }
+    //if received_input.time.elapsed().unwrap() > readout_time.elapsed(){ return; }
 
     if client_addresses.get(&src_addr).unwrap().eq(&1) && !*message_1{
         for keys in received_input.inputs.iter(){
@@ -153,9 +153,13 @@ pub fn receive_game_state(  socket: &UdpSocket,
     match socket.recv(&mut buffer){
         Ok(t) => {
             let state = deserialize::<GameState>(&buffer).expect("cannot crack ze coode");
+            
+            /*
             if state.time.elapsed().unwrap() > readout_time.elapsed(){
                 return false;
             }
+            */
+
             next_state.copy(&state);
             return true
         },
